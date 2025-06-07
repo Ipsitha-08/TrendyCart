@@ -1,7 +1,8 @@
-// Redirect to login.html if no user is logged in
+// Redirect to login.html if no user logged in and current page is index.html
 const user = localStorage.getItem("user");
 if (!user && window.location.pathname.endsWith("index.html")) {
   window.location.href = "login.html";
+  throw new Error("Redirecting to login");
 }
 
 document.addEventListener("DOMContentLoaded", function () {
