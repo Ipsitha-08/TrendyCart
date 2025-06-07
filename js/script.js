@@ -1,3 +1,4 @@
+// Redirect to login.html if no user is logged in
 const user = localStorage.getItem("user");
 if (!user && window.location.pathname.endsWith("index.html")) {
   window.location.href = "login.html";
@@ -32,6 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     container.appendChild(col);
   });
+
+  // Attach event listeners for wishlist buttons
   const buttons = document.querySelectorAll(".wishlist-btn");
   buttons.forEach(button => {
     button.addEventListener("click", function () {
