@@ -1,16 +1,17 @@
-document.getElementById("login-form").addEventListener("submit", function (e) {
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
-  
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-  
-    // Simulate successful login (no real authentication)
-    if (email && password) {
-      localStorage.setItem("user", email);
-      alert("Login successful!");
-      window.location.href = "index.html"; // Redirect to homepage
+
+    const email = document.getElementById('email').value.trim();
+
+    // Simple email regex to validate email format
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (emailPattern.test(email)) {
+      console.log("Valid email entered:", email);
+      window.location.href = "home.html";  // redirect to home page
     } else {
-      alert("Please enter valid credentials.");
+      alert("Please enter a valid email address.");
     }
   });
-  
+});
