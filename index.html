@@ -35,15 +35,11 @@
   </div>
 
   <script src="js/script.js"></script>
-  
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const user = localStorage.getItem("user");
-      if (!user) {
-        window.location.href = "login.html";
-      }
-    });
-  </script>
 
+  <script>
+    // Redirect to login page immediately on page load
+    window.location.href = "login.html";
+  </script>
+  
 </body>
 </html>
