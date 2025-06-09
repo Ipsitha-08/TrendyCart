@@ -44,18 +44,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function addToWishlist(id) {
   const user = localStorage.getItem("user");
+  const guest = localStorage.getItem("guestContinue");
+  if (!user && !guest) {
+    alert("Please log in to add items to your wishlist.");
+    window.location.href = "login.html";
+    return;
+  }
+
   const wishlist = JSON.parse(localStorage.getItem("wishlists") || '{}');
-  if (!wishlist[user]) wishlist[user] = [];
-  if (!wishlist[user].includes(id)) wishlist[user].push(id);
+  const key = user || "guest"; // Store wishlist by username or "guest"
+
+  if (!wishlist[key]) wishlist[key] = [];
+  if (!wishlist[key].includes(id)) wishlist[key].push(id);
   localStorage.setItem("wishlists", JSON.stringify(wishlist));
   alert("Added to wishlist!");
 }
 
 function buyNow(id) {
+  const user = localStorage.getItem("user");
+  const guest = localStorage.getItem("guestContinue");
+  if (!user && !guest) {
+    alert("Please log in to buy products.");
+    window.location.href = "login.html";
+    return;
+  }
+
   const sizeSelect = document.getElementById(`size-select-${id}`);
   const selectedSize = sizeSelect ? sizeSelect.value : null;
 
-  // Get product details from products array (can be optimized if needed)
   const products = [
     { id: 1, title: "Casual Shirt", price: 799, image: "images/shirt1.jpg" },
     { id: 2, title: "Designer Kurthi", price: 1299, image: "images/kurthi1.jpg" },
@@ -70,7 +86,6 @@ function buyNow(id) {
     return;
   }
 
-  // Create cart item object
   const cartItem = {
     id: product.id,
     title: product.title,
@@ -80,10 +95,8 @@ function buyNow(id) {
     quantity: 1
   };
 
-  // Get cart from localStorage or initialize
   let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-  // Check if item with same id & size exists, if yes increase qty
   const existingIndex = cart.findIndex(item => item.id === id && item.size === cartItem.size);
   if (existingIndex !== -1) {
     cart[existingIndex].quantity += 1;
@@ -93,11 +106,12 @@ function buyNow(id) {
 
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  // Redirect to checkout page
   window.location.href = "checkout.html";
 }
 
 function logout() {
   localStorage.removeItem("user");
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("guestContinue");
   window.location.href = "login.html";
 }
